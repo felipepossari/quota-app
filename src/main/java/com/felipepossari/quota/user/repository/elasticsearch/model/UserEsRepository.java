@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import static org.springframework.data.elasticsearch.core.RefreshPolicy.IMMEDIATE;
 
-@Component
+@Component("UserEsRepository")
 @RequiredArgsConstructor
 public class UserEsRepository implements UserRepository {
 
