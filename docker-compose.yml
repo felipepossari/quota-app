@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  quota-db:
+    image: mysql
+    container_name: quota-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=quota
+    ports:
+      - "3306:3306"
+    volumes:
+      - .dbdata/:/var/lib/mysql
