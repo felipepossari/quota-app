@@ -41,4 +41,9 @@ public class UserService {
         return repository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
     }
+
+    public void deleteUser(String userId) {
+        var userEntity = retrieveUser(userId);
+        repository.delete(userEntity);
+    }
 }
