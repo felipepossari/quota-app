@@ -17,7 +17,7 @@ public class UserService {
 
     public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
-        return repository.getRepository("UserEsRepository").create(user);
+        return repository.getRepository().create(user);
     }
 
     public User getUser(String userId) {
@@ -30,16 +30,16 @@ public class UserService {
         userEntity.setFirstName(user.getFirstName());
         userEntity.setLastName(user.getLastName());
 
-        return repository.getRepository("UserRepositoryFactory").update(userEntity);
+        return repository.getRepository().update(userEntity);
     }
 
     private User retrieveUser(String userId) {
-        return repository.getRepository("UserRepositoryFactory").findById(userId)
+        return repository.getRepository().findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
     }
 
     public void deleteUser(String userId) {
         var userEntity = retrieveUser(userId);
-        repository.getRepository("UserRepositoryFactory").delete(userEntity);
+        repository.getRepository().delete(userEntity);
     }
 }
