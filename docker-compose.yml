@@ -24,7 +24,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./es/data1:/var/lib/elasticsearch/data
+      - .es/data1:/var/lib/elasticsearch/data
     ports:
       - 9200:9200
       - 9300:9300
