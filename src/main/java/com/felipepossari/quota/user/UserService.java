@@ -28,6 +28,15 @@ public class UserService {
         return builder.toUser(userEntity);
     }
 
+    public User updateUser(String userId, User user) {
+        var userEntity = retrieveUser(userId);
+        userEntity.setFirstName(user.getFirstName());
+        userEntity.setLastName(user.getLastName());
+
+        var userUpdated = repository.save(userEntity);
+        return builder.toUser(userUpdated);
+    }
+
     private UserEntity retrieveUser(String userId) {
         return repository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
