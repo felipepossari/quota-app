@@ -1,7 +1,7 @@
 package com.felipepossari.quota.user;
 
 import com.felipepossari.quota.common.exception.ResourceNotFoundException;
-import com.felipepossari.quota.user.repository.UserRepository;
+import com.felipepossari.quota.user.repository.UserRepositoryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +13,11 @@ import static com.felipepossari.quota.common.exception.ErrorReason.USER_NOT_FOUN
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository repository;
+    private final UserRepositoryFactory repository;
 
     public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
-        return repository.create(user);
+        return repository.getRepository().create(user);
     }
 
     public User getUser(String userId) {
@@ -30,16 +30,16 @@ public class UserService {
         userEntity.setFirstName(user.getFirstName());
         userEntity.setLastName(user.getLastName());
 
-        return repository.update(userEntity);
+        return repository.getRepository().update(userEntity);
     }
 
     private User retrieveUser(String userId) {
-        return repository.findById(userId)
+        return repository.getRepository().findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(USER_NOT_FOUND));
     }
 
     public void deleteUser(String userId) {
         var userEntity = retrieveUser(userId);
-        repository.delete(userEntity);
+        repository.getRepository().delete(userEntity);
     }
 }

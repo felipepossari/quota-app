@@ -1,25 +1,27 @@
-package com.felipepossari.quota.user.repository.mysql;
+package com.felipepossari.quota.user.repository.elasticsearch.model;
 
 import com.felipepossari.quota.user.User;
 import com.felipepossari.quota.user.UserBuilder;
 import com.felipepossari.quota.user.repository.UserRepository;
+import com.felipepossari.quota.user.repository.elasticsearch.UserElasticsearchRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 
-@Component("UserMySqlRepository")
+import static org.springframework.data.elasticsearch.core.RefreshPolicy.IMMEDIATE;
+
+@Component("UserEsRepository")
 @RequiredArgsConstructor
-public class UserMySqlRepository implements UserRepository {
+public class UserEsRepository implements UserRepository {
 
-    private final UserJpaRepository repository;
     private final UserBuilder builder;
+    private final UserElasticsearchRepository repository;
 
     @Override
     public User create(User user) {
-        user.setId(UUID.randomUUID().toString());
-        var userCreated = repository.save(builder.toEntity(user));
+        UserIndex index = builder.toIndex(user);
+        var userCreated = repository.save(index, IMMEDIATE);
         return builder.toUser(userCreated);
     }
 
@@ -31,12 +33,13 @@ public class UserMySqlRepository implements UserRepository {
 
     @Override
     public User update(User user) {
-        var userUpdated = repository.save(builder.toEntity(user));
+        var userIndex = builder.toIndex(user);
+        var userUpdated = repository.save(userIndex, IMMEDIATE);
         return builder.toUser(userUpdated);
     }
 
     @Override
     public void delete(User user) {
-        repository.deleteById(user.getId());
+        repository.deleteById(user.getId(), IMMEDIATE);
     }
 }
