@@ -10,3 +10,40 @@ services:
       - "3306:3306"
     volumes:
       - .dbdata/:/var/lib/mysql
+
+  quota-es-db:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18-amd64
+    container_name: quota-es-db
+    environment:
+      - discovery.type=single-node
+      - http.port=9200
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./es/data1:/var/lib/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - quota-development
+
+  quota-kibana:
+    image: docker.elastic.co/kibana/kibana:7.17.18
+    container_name: quota-kibana
+    environment:
+      - discovery.type=single-node
+      - ELASTICSEARCH_HOSTS=["http://quota-es-db:9200"]
+    ports:
+      - 5601:5601
+    depends_on:
+      - quota-es-db
+    networks:
+      - quota-development
+
+networks:
+  quota-development:
+    name: quota-development
