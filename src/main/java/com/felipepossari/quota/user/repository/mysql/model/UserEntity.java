@@ -1,4 +1,4 @@
-package com.felipepossari.quota.user.repository.model;
+package com.felipepossari.quota.user.repository.mysql.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -2,7 +2,7 @@ package com.felipepossari.quota.user;
 
 import com.felipepossari.quota.user.api.model.UserRequest;
 import com.felipepossari.quota.user.api.model.UserResponse;
-import com.felipepossari.quota.user.repository.model.UserEntity;
+import com.felipepossari.quota.user.repository.mysql.model.UserEntity;
 import org.springframework.stereotype.Component;
 
 @Component
