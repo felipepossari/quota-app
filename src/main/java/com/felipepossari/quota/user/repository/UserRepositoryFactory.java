@@ -18,12 +18,16 @@ public class UserRepositoryFactory {
     @Qualifier("UserEsRepository")
     private final UserRepository userEsRepository;
 
+    @Qualifier("mysqlFromTime")
+    private final LocalTime mysqlFromTime;
+
+    @Qualifier("mysqlToTime")
+    private final LocalTime mysqlToTime;
+
     public UserRepository getRepository(){
-        var dayFrom = LocalTime.of(9, 00);
-        var dayTo = LocalTime.of(17, 00);
         LocalTime time = LocalTime.now(ZoneOffset.UTC);
 
-        if(time.isAfter(dayFrom) && time.isBefore(dayTo)){
+        if(time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)){
             return userMySqlRepository;
         }else{
             return userEsRepository;
