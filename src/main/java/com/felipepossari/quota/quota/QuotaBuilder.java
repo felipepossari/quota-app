@@ -1,6 +1,7 @@
 package com.felipepossari.quota.quota;
 
 import com.felipepossari.quota.DateTimeUtil;
+import com.felipepossari.quota.quota.api.model.QuotaResponse;
 import com.felipepossari.quota.quota.repository.elasticsearch.model.QuotaIndex;
 import com.felipepossari.quota.quota.repository.mysql.model.QuotaEntity;
 import lombok.RequiredArgsConstructor;
@@ -64,6 +65,15 @@ public class QuotaBuilder {
                 .createdAt(dateTimeUtil.nowUtc())
                 .updatedAt(dateTimeUtil.nowUtc())
                 .resetTime(dateTimeUtil.nowUtc().plusYears(10))
+                .build();
+    }
+
+    public QuotaResponse toResponse(Quota quota) {
+        return QuotaResponse.builder()
+                .quotaLimit(quota.getQuotaLimit())
+                .resetTime(quota.getResetTime())
+                .rateKey(quota.getRateKey())
+                .remaining(quota.getRemaining())
                 .build();
     }
 }

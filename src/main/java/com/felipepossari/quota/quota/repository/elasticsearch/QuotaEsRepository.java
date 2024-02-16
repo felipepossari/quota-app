@@ -4,6 +4,8 @@ import com.felipepossari.quota.quota.Quota;
 import com.felipepossari.quota.quota.QuotaBuilder;
 import com.felipepossari.quota.quota.repository.QuotaRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -28,5 +30,11 @@ public class QuotaEsRepository implements QuotaRepository {
         var index = builder.toIndex(quota);
         var quotaUpdated = repository.save(index, IMMEDIATE);
         return builder.toQuota(quotaUpdated);
+    }
+
+    @Override
+    public Page<Quota> getAll(Pageable pageable) {
+        var quotaPage = repository.findAll(pageable);
+        return quotaPage.map(builder::toQuota);
     }
 }

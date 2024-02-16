@@ -3,7 +3,9 @@ package com.felipepossari.quota.quota.repository.mysql;
 import com.felipepossari.quota.quota.Quota;
 import com.felipepossari.quota.quota.QuotaBuilder;
 import com.felipepossari.quota.quota.repository.QuotaRepository;
- import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -26,5 +28,11 @@ public class QuotaMysqlRepository implements QuotaRepository {
         var entity = builder.toEntity(quota);
         var quotaUpdated = repository.save(entity);
         return builder.toQuota(quotaUpdated);
+    }
+
+    @Override
+    public Page<Quota> getAll(Pageable pageable) {
+        var quotaPage = repository.findAll(pageable);
+        return quotaPage.map(builder::toQuota);
     }
 }
