@@ -2,10 +2,14 @@ package com.felipepossari.quota.quota;
 
 import com.felipepossari.quota.DateTimeUtil;
 import com.felipepossari.quota.quota.api.model.QuotaResponse;
+import com.felipepossari.quota.quota.api.model.QuotaResponseStatus;
 import com.felipepossari.quota.quota.repository.elasticsearch.model.QuotaIndex;
 import com.felipepossari.quota.quota.repository.mysql.model.QuotaEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import static com.felipepossari.quota.quota.api.model.QuotaResponseStatus.AVAILABLE;
+import static com.felipepossari.quota.quota.api.model.QuotaResponseStatus.EXCEEDED;
 
 @Component
 @RequiredArgsConstructor
@@ -74,6 +78,7 @@ public class QuotaBuilder {
                 .resetTime(quota.getResetTime())
                 .rateKey(quota.getRateKey())
                 .remaining(quota.getRemaining())
+                .status(quota.hasQuotaAvailable() ? AVAILABLE : EXCEEDED)
                 .build();
     }
 }

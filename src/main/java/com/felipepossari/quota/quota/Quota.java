@@ -31,7 +31,11 @@ public class Quota {
         return remaining < 0;
     }
 
-    public long getResetTimeInSeconds(LocalDateTime now){
+    public boolean hasQuotaAvailable() {
+        return remaining > 0;
+    }
+
+    public long getResetTimeInSeconds(LocalDateTime now) {
         return resetTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC);
     }
 }

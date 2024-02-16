@@ -16,4 +16,5 @@ public class QuotaResponse {
     private Integer quotaLimit;
     private Integer remaining;
     private LocalDateTime resetTime;
+    private QuotaResponseStatus status;
 }
