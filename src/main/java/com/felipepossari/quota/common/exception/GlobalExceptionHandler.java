@@ -14,7 +14,7 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger exLogger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<List<ErrorResponse>> handleResourceNotFoundException(ResourceNotFoundException exception,
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<List<ErrorResponse>> handleUnknownError(Exception exception, WebRequest request) {
-        logger.error("Unknown error happened. Ex:", exception);
+        exLogger.error("Unknown error happened. Ex:", exception);
         var error = List.of(ErrorResponse.builder()
                 .code(ErrorReason.INTERNAL_ERROR.getCode())
                 .message(ErrorReason.INTERNAL_ERROR.getMessage())

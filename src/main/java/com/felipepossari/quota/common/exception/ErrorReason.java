@@ -18,6 +18,6 @@ public enum ErrorReason {
 
     INTERNAL_ERROR("U999", "Internal error");
 
-    private String code;
-    private String message;
+    private final String code;
+    private final String message;
 }

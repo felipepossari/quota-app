@@ -8,5 +8,5 @@ import org.springframework.validation.BindingResult;
 @Getter
 public class InvalidRequestException extends RuntimeException {
 
-    private final BindingResult bindingResult;
+    private final transient BindingResult bindingResult;
 }
