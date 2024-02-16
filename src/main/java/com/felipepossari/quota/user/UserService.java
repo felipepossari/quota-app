@@ -16,12 +16,17 @@ public class UserService {
 
     private final UserRepositoryFactory repository;
     private final DateTimeUtil dateTimeUtil;
+    private final UserProducer producer;
 
     public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
         user.setCreatedAt(dateTimeUtil.nowUtc());
         user.setUpdatedAt(dateTimeUtil.nowUtc());
-        return repository.getRepository().create(user);
+        var newUser = repository.getRepository().create(user);
+
+        producer.sendUserCreatedMessage(newUser);
+
+        return newUser;
     }
 
     public User getUser(String userId) {

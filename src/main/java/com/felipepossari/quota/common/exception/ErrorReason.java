@@ -12,6 +12,8 @@ public enum ErrorReason {
 
     USER_NOT_FOUND("U001", "User not found"),
     TOO_MANY_REQUESTS("U002", "Too many requests"),
+    EVENT_PARSE_FAIL("U003", "Failure to parse event to String"),
+    USER_PARSE_FAIL("U004", "Failure to parse user to String"),
 
     INTERNAL_ERROR("U999", "Internal error");
 
