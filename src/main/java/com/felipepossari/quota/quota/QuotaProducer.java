@@ -25,7 +25,7 @@ public class QuotaProducer {
     private final EventBuilder eventBuilder;
 
     @Value("${kafka.quota.topic}")
-    private String quotaTopic;
+    private final String quotaTopic;
 
     public void sendQuotaCreatedMessage(Quota quota) {
         logger.info("Sending quota created message. RateKey: {}", quota.getRateKey());

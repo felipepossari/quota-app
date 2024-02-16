@@ -26,7 +26,7 @@ public class UserProducer {
     private final EventBuilder eventBuilder;
 
     @Value("${kafka.user.topic}")
-    private String userTopic;
+    private final String userTopic;
 
     public void sendUserCreatedMessage(User user) {
         logger.info("Sending user created message. UserId: {}", user.getId());
