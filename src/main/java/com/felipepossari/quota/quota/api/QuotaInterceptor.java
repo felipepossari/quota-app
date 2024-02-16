@@ -1,5 +1,6 @@
 package com.felipepossari.quota.quota.api;
 
+import com.felipepossari.quota.DateTimeUtil;
 import com.felipepossari.quota.quota.Quota;
 import com.felipepossari.quota.quota.QuotaService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import static com.felipepossari.quota.common.exception.ErrorReason.TOO_MANY_REQU
 public class QuotaInterceptor implements HandlerInterceptor {
 
     private final QuotaService service;
+    private final DateTimeUtil dateTimeUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,7 +35,7 @@ public class QuotaInterceptor implements HandlerInterceptor {
         String userId = attributes.get("id");
 
         Quota quota = service.retrieveQuota(userId);
-        quota.consumeQuota(1);
+        quota.consumeQuota(1, dateTimeUtil.nowUtc());
 
         response.addHeader("RateLimit-Limit", quota.getQuotaLimit().toString());
         response.addHeader("RateLimit-Remaining", String.valueOf(Math.max(quota.getRemaining(), 0)));

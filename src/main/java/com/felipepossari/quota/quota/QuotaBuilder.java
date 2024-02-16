@@ -1,13 +1,16 @@
 package com.felipepossari.quota.quota;
 
+import com.felipepossari.quota.DateTimeUtil;
 import com.felipepossari.quota.quota.repository.elasticsearch.model.QuotaIndex;
 import com.felipepossari.quota.quota.repository.mysql.model.QuotaEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
+@RequiredArgsConstructor
 public class QuotaBuilder {
+
+    private final DateTimeUtil dateTimeUtil;
 
     public Quota toQuota(QuotaEntity entity) {
         return Quota.builder()
@@ -53,14 +56,14 @@ public class QuotaBuilder {
                 .build();
     }
 
-    public Quota buildNewQuota(String rateKey, Integer quotaLimit){
+    public Quota buildNewQuota(String rateKey, Integer quotaLimit) {
         return Quota.builder()
                 .rateKey(rateKey)
                 .quotaLimit(quotaLimit)
                 .remaining(quotaLimit)
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .resetTime(LocalDateTime.now().plusYears(10))
+                .createdAt(dateTimeUtil.nowUtc())
+                .updatedAt(dateTimeUtil.nowUtc())
+                .resetTime(dateTimeUtil.nowUtc().plusYears(10))
                 .build();
     }
 }

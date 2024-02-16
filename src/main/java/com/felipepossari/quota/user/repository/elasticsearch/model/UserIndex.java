@@ -26,4 +26,10 @@ public class UserIndex {
 
     @Field(type = FieldType.Date, name = "lastLoginTimeUtc", format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime lastLoginTimeUtc;
+
+    @Field(type = FieldType.Date, name = "createdAt", format = DateFormat.date_hour_minute_second_millis)
+    private LocalDateTime createdAt;
+
+    @Field(type = FieldType.Date, name = "updatedAt", format = DateFormat.date_hour_minute_second_millis)
+    private LocalDateTime updatedAt;
 }

@@ -31,4 +31,8 @@ public class UserEntity {
     private String lastName;
 
     private LocalDateTime lastLoginTimeUtc;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }

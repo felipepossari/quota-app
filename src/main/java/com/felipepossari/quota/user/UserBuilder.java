@@ -22,6 +22,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLogin(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -31,6 +33,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -40,6 +44,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -49,6 +55,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -58,6 +66,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }

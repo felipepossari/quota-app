@@ -22,9 +22,9 @@ public class Quota {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public void consumeQuota(int quantity) {
+    public void consumeQuota(int quantity, LocalDateTime now) {
         remaining = remaining - quantity;
-        updatedAt = LocalDateTime.now();
+        updatedAt = now;
     }
 
     public boolean isQuotaReached() {
