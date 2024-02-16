@@ -5,8 +5,7 @@ import com.felipepossari.quota.common.event.EventBuilder;
 import com.felipepossari.quota.common.event.EventParser;
 import com.felipepossari.quota.common.event.EventType;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
@@ -17,9 +16,9 @@ import static com.felipepossari.quota.common.event.EventType.USER_UPDATED;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class UserProducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserProducer.class);
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final UserParser userParser;
     private final EventParser eventParser;
@@ -29,17 +28,17 @@ public class UserProducer {
     private final String userTopic;
 
     public void sendUserCreatedMessage(User user) {
-        logger.info("Sending user created message. UserId: {}", user.getId());
+        log.info("Sending user created message. UserId: {}", user.getId());
         kafkaTemplate.send(userTopic, createEvent(user, USER_CREATED));
     }
 
     public void sendUserUpdatedMessage(User user) {
-        logger.info("Sending user updated message. UserId: {}", user.getId());
+        log.info("Sending user updated message. UserId: {}", user.getId());
         kafkaTemplate.send(userTopic, createEvent(user, USER_UPDATED));
     }
 
     public void sendUserDeletedMessage(User user) {
-        logger.info("Sending user deleted message. UserId: {}", user.getId());
+        log.info("Sending user deleted message. UserId: {}", user.getId());
         kafkaTemplate.send(userTopic, createEvent(user, USER_DELETED));
     }
 
