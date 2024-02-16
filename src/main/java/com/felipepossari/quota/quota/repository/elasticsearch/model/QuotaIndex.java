@@ -21,7 +21,7 @@ public class QuotaIndex {
     @Field(type = FieldType.Integer, name = "quotaLimit")
     private Integer quotaLimit;
 
-    @Field(type = FieldType.Integer, name = "quotaLimit")
+    @Field(type = FieldType.Integer, name = "remaining")
     private Integer remaining;
 
     @Field(type = FieldType.Date, name = "resetTime", format = DateFormat.date_hour_minute_second_millis)
