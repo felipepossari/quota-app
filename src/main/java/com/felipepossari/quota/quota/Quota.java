@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +19,16 @@ public class Quota {
     private Integer quotaLimit;
     private Integer remaining;
     private LocalDateTime resetTime;
+
+    public void consumeQuota(int quantity) {
+        remaining = remaining - quantity;
+    }
+
+    public boolean isQuotaReached() {
+        return remaining < 0;
+    }
+
+    public long getResetTimeInSeconds(LocalDateTime now){
+        return resetTime.toEpochSecond(ZoneOffset.UTC) - now.toEpochSecond(ZoneOffset.UTC);
+    }
 }

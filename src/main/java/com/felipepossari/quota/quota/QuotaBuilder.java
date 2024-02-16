@@ -3,6 +3,8 @@ package com.felipepossari.quota.quota;
 import com.felipepossari.quota.quota.repository.mysql.model.QuotaEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class QuotaBuilder {
 
@@ -29,6 +31,7 @@ public class QuotaBuilder {
                 .rateKey(rateKey)
                 .quotaLimit(quotaLimit)
                 .remaining(quotaLimit)
+                .resetTime(LocalDateTime.now().plusYears(10))
                 .build();
     }
 }
