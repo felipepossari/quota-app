@@ -3,7 +3,6 @@ package com.felipepossari.quota.user.repository.elasticsearch;
 import com.felipepossari.quota.user.User;
 import com.felipepossari.quota.user.UserBuilder;
 import com.felipepossari.quota.user.repository.UserRepository;
-import com.felipepossari.quota.user.repository.elasticsearch.UserElasticsearchRepository;
 import com.felipepossari.quota.user.repository.elasticsearch.model.UserIndex;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
