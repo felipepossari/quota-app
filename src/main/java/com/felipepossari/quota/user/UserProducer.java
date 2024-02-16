@@ -3,6 +3,7 @@ package com.felipepossari.quota.user;
 import com.felipepossari.quota.common.event.Event;
 import com.felipepossari.quota.common.event.EventBuilder;
 import com.felipepossari.quota.common.event.EventParser;
+import com.felipepossari.quota.common.event.EventType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,22 +30,22 @@ public class UserProducer {
 
     public void sendUserCreatedMessage(User user) {
         logger.info("Sending user created message. UserId: {}", user.getId());
-        String data = userParser.parse(user);
-        Event event = eventBuilder.buildEvent(USER_CREATED, data);
-        kafkaTemplate.send(userTopic, eventParser.parse(event));
+        kafkaTemplate.send(userTopic, createEvent(user, USER_CREATED));
     }
 
     public void sendUserUpdatedMessage(User user) {
         logger.info("Sending user updated message. UserId: {}", user.getId());
-        String data = userParser.parse(user);
-        Event event = eventBuilder.buildEvent(USER_UPDATED, data);
-        kafkaTemplate.send(userTopic, eventParser.parse(event));
+        kafkaTemplate.send(userTopic, createEvent(user, USER_UPDATED));
     }
 
     public void sendUserDeletedMessage(User user) {
         logger.info("Sending user deleted message. UserId: {}", user.getId());
+        kafkaTemplate.send(userTopic, createEvent(user, USER_DELETED));
+    }
+
+    private String createEvent(User user, EventType eventType) {
         String data = userParser.parse(user);
-        Event event = eventBuilder.buildEvent(USER_DELETED, data);
-        kafkaTemplate.send(userTopic, eventParser.parse(event));
+        Event event = eventBuilder.buildEvent(eventType, data);
+        return eventParser.parse(event);
     }
 }
