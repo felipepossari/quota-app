@@ -1,14 +1,10 @@
 package com.felipepossari.quota.user;
 
-import co.elastic.clients.util.DateTime;
 import com.felipepossari.quota.user.api.model.UserRequest;
 import com.felipepossari.quota.user.api.model.UserResponse;
 import com.felipepossari.quota.user.repository.elasticsearch.model.UserIndex;
 import com.felipepossari.quota.user.repository.mysql.model.UserEntity;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Component
 public class UserBuilder {
@@ -26,6 +22,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLogin(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -35,6 +33,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -44,6 +44,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -53,6 +55,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
@@ -62,6 +66,8 @@ public class UserBuilder {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .lastLoginTimeUtc(user.getLastLoginTimeUtc())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 }

@@ -1,6 +1,5 @@
-package com.felipepossari.quota.user.repository.mysql.model;
+package com.felipepossari.quota.quota.repository.mysql.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -18,19 +17,17 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@Table(name = "user")
-public class UserEntity {
+@Table(name = "quota")
+public class QuotaEntity {
 
     @Id
-    private String id;
+    private String rateKey;
 
-    @Column(nullable = false)
-    private String firstName;
+    private Integer quotaLimit;
 
-    @Column(nullable = false)
-    private String lastName;
+    private Integer remaining;
 
-    private LocalDateTime lastLoginTimeUtc;
+    private LocalDateTime resetTime;
 
     private LocalDateTime createdAt;
 

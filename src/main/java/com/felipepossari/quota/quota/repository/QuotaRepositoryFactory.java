@@ -1,4 +1,4 @@
-package com.felipepossari.quota.user.repository;
+package com.felipepossari.quota.quota.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,13 +9,13 @@ import java.time.ZoneOffset;
 
 @Component
 @RequiredArgsConstructor
-public class UserRepositoryFactory {
+public class QuotaRepositoryFactory {
 
-    @Qualifier("UserMySqlRepository")
-    private final UserRepository userMySqlRepository;
+    @Qualifier("QuotaMysqlRepository")
+    private final QuotaRepository quotaMySqlRepository;
 
-    @Qualifier("UserEsRepository")
-    private final UserRepository userEsRepository;
+    @Qualifier("QuotaEsRepository")
+    private final QuotaRepository quotaEsRepository;
 
     @Qualifier("mysqlFromTime")
     private final LocalTime mysqlFromTime;
@@ -23,13 +23,13 @@ public class UserRepositoryFactory {
     @Qualifier("mysqlToTime")
     private final LocalTime mysqlToTime;
 
-    public UserRepository getRepository() {
+    public QuotaRepository getRepository() {
         LocalTime time = LocalTime.now(ZoneOffset.UTC);
 
         if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
-            return userMySqlRepository;
+            return quotaMySqlRepository;
         } else {
-            return userEsRepository;
+            return quotaEsRepository;
         }
     }
 }

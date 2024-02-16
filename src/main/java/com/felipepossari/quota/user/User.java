@@ -14,4 +14,12 @@ public class User {
     private String firstName;
     private String lastName;
     private LocalDateTime lastLoginTimeUtc;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    public void updateName(String firstName, String lastName, LocalDateTime updateTime) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.updatedAt = updateTime;
+    }
 }

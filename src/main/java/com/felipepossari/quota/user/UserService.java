@@ -1,5 +1,6 @@
 package com.felipepossari.quota.user;
 
+import com.felipepossari.quota.DateTimeUtil;
 import com.felipepossari.quota.common.exception.ResourceNotFoundException;
 import com.felipepossari.quota.user.repository.UserRepositoryFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +15,12 @@ import static com.felipepossari.quota.common.exception.ErrorReason.USER_NOT_FOUN
 public class UserService {
 
     private final UserRepositoryFactory repository;
+    private final DateTimeUtil dateTimeUtil;
 
     public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
+        user.setCreatedAt(dateTimeUtil.nowUtc());
+        user.setUpdatedAt(dateTimeUtil.nowUtc());
         return repository.getRepository().create(user);
     }
 
@@ -26,10 +30,7 @@ public class UserService {
 
     public User updateUser(String userId, User user) {
         var userEntity = retrieveUser(userId);
-
-        userEntity.setFirstName(user.getFirstName());
-        userEntity.setLastName(user.getLastName());
-
+        userEntity.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
         return repository.getRepository().update(userEntity);
     }
 

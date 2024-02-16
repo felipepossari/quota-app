@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -49,5 +49,10 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") String userId){
         service.deleteUser(userId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/quota")
+    public ResponseEntity<Void> consumeQuota(@PathVariable("id") String userId){
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,4 +1,4 @@
-package com.felipepossari.quota.user.repository.elasticsearch.model;
+package com.felipepossari.quota.quota.repository.elasticsearch.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,22 +10,22 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
-@Document(indexName = "user")
+@Document(indexName = "quota")
 @Data
 @Builder
-public class UserIndex {
+public class QuotaIndex {
 
     @Id
-    private String id;
+    private String rateKey;
 
-    @Field(type = FieldType.Text, name = "firstName")
-    private String firstName;
+    @Field(type = FieldType.Integer, name = "quotaLimit")
+    private Integer quotaLimit;
 
-    @Field(type = FieldType.Text, name = "lastName")
-    private String lastName;
+    @Field(type = FieldType.Integer, name = "remaining")
+    private Integer remaining;
 
-    @Field(type = FieldType.Date, name = "lastLoginTimeUtc", format = DateFormat.date_hour_minute_second_millis)
-    private LocalDateTime lastLoginTimeUtc;
+    @Field(type = FieldType.Date, name = "resetTime", format = DateFormat.date_hour_minute_second_millis)
+    private LocalDateTime resetTime;
 
     @Field(type = FieldType.Date, name = "createdAt", format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime createdAt;
