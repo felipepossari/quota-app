@@ -32,4 +32,14 @@ public class UserRepositoryFactory {
             return userEsRepository;
         }
     }
+
+    public UserRepository getIdleRepository() {
+        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+
+        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+            return userEsRepository;
+        } else {
+            return userMySqlRepository;
+        }
+    }
 }

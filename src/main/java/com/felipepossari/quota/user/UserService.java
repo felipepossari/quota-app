@@ -56,12 +56,30 @@ public class UserService {
     }
 
     public void syncUserCreated(User user) {
-
+        log.info("Syncing user created. UserId: {}", user.getId());
+        var userOpt = repository.getIdleRepository().findById(user.getId());
+        if (userOpt.isPresent()) {
+            log.info("User already registered. Skipping sync for user created. UserId: {}", user.getId());
+        } else {
+            repository.getIdleRepository().create(user);
+        }
     }
 
     public void syncUserDeleted(User user) {
+        log.info("Syncing user deleted. UserId: {}", user.getId());
+        repository.getIdleRepository().delete(user);
     }
 
     public void syncUserUpdated(User user) {
+        log.info("Syncing user updated. UserId: {}", user.getId());
+        var userOpt = repository.getIdleRepository().findById(user.getId());
+        if (userOpt.isPresent()) {
+            if (user.getUpdatedAt().isBefore(userOpt.get().getUpdatedAt())) {
+                log.info("UpdatedAt time from registered user is after the event. Skipping sync for user updated. UserId: {}", user.getId());
+            }
+        } else {
+            log.info("User not registered. Creating user from user updated event. UserId: {}", user.getId());
+            repository.getIdleRepository().create(user);
+        }
     }
 }
