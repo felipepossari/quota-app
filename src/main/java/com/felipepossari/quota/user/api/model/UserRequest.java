@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class UserRequest {
-    @NotBlank
-    private String firstName;
 
-    @NotBlank
+    private String firstName;
     private String lastName;
 }

@@ -1,5 +1,6 @@
 package com.felipepossari.quota.user.api;
 
+import com.felipepossari.quota.common.exception.InvalidRequestException;
 import com.felipepossari.quota.user.UserBuilder;
 import com.felipepossari.quota.user.UserService;
 import com.felipepossari.quota.user.api.model.UserRequest;
@@ -7,8 +8,11 @@ import com.felipepossari.quota.user.api.model.UserResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
- import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,9 +27,12 @@ public class UserController {
 
     private final UserBuilder builder;
     private final UserService service;
+    private final UserRequestValidator validator;
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest body) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest body,
+                                                   BindingResult bindingResult) {
+        checkRequest(bindingResult);
         var user = builder.toUser(body);
         var userCreated = service.createUser(user);
         return ResponseEntity.ok(builder.toUserResponse(userCreated));
@@ -39,7 +46,9 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String userId,
-                                                   @Valid @RequestBody UserRequest body) {
+                                                   @Valid @RequestBody UserRequest body,
+                                                   BindingResult bindingResult) {
+        checkRequest(bindingResult);
         var user = builder.toUser(body);
         var userUpdated = service.updateUser(userId, user);
         return ResponseEntity.ok(builder.toUserResponse(userUpdated));
@@ -54,5 +63,16 @@ public class UserController {
     @PostMapping("/{id}/quota")
     public ResponseEntity<Void> consumeQuota(@PathVariable("id") String userId){
         return ResponseEntity.ok().build();
+    }
+
+    @InitBinder
+    private void initBinder(WebDataBinder binder){
+        binder.setValidator(validator);
+    }
+
+    private void checkRequest(BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            throw new InvalidRequestException(bindingResult);
+        }
     }
 }
