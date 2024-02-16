@@ -4,6 +4,7 @@ import com.felipepossari.quota.DateTimeUtil;
 import com.felipepossari.quota.common.exception.ResourceNotFoundException;
 import com.felipepossari.quota.user.repository.UserRepositoryFactory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,6 +13,7 @@ import static com.felipepossari.quota.common.exception.ErrorReason.USER_NOT_FOUN
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepositoryFactory repository;
@@ -20,6 +22,7 @@ public class UserService {
 
     public User createUser(User user) {
         user.setId(UUID.randomUUID().toString());
+        log.info("Creating user. UserId: {}", user.getId());
         user.setCreatedAt(dateTimeUtil.nowUtc());
         user.setUpdatedAt(dateTimeUtil.nowUtc());
         var newUser = repository.getRepository().create(user);
@@ -32,6 +35,7 @@ public class UserService {
     }
 
     public User updateUser(String userId, User user) {
+        log.info("Updating user. UserId: {}", user.getId());
         var userEntity = retrieveUser(userId);
         userEntity.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
         var userUpdated = repository.getRepository().update(userEntity);
@@ -45,8 +49,19 @@ public class UserService {
     }
 
     public void deleteUser(String userId) {
+        log.info("Deleting user. UserId: {}", userId);
         var user = retrieveUser(userId);
         repository.getRepository().delete(user);
         producer.sendUserDeletedMessage(user);
+    }
+
+    public void syncUserCreated(User user) {
+
+    }
+
+    public void syncUserDeleted(User user) {
+    }
+
+    public void syncUserUpdated(User user) {
     }
 }

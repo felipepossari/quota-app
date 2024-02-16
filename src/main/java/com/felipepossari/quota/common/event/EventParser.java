@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import static com.felipepossari.quota.common.exception.ErrorReason.EVENT_MESSAGE_PARSE_FAIL;
 import static com.felipepossari.quota.common.exception.ErrorReason.EVENT_PARSE_FAIL;
 
 @Component
@@ -22,6 +23,15 @@ public class EventParser {
         } catch (JsonProcessingException e) {
             log.error(EVENT_PARSE_FAIL.getMessage(), e);
             throw new ParserErrorException(EVENT_PARSE_FAIL);
+        }
+    }
+
+    public Event parseMessage(String message) {
+        try {
+            return objectMapper.readValue(message, Event.class);
+        } catch (JsonProcessingException e) {
+            log.error(EVENT_MESSAGE_PARSE_FAIL.getMessage(), e);
+            throw new ParserErrorException(EVENT_MESSAGE_PARSE_FAIL);
         }
     }
 }
