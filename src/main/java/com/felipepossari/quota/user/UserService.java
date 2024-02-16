@@ -23,9 +23,7 @@ public class UserService {
         user.setCreatedAt(dateTimeUtil.nowUtc());
         user.setUpdatedAt(dateTimeUtil.nowUtc());
         var newUser = repository.getRepository().create(user);
-
         producer.sendUserCreatedMessage(newUser);
-
         return newUser;
     }
 
@@ -36,7 +34,9 @@ public class UserService {
     public User updateUser(String userId, User user) {
         var userEntity = retrieveUser(userId);
         userEntity.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
-        return repository.getRepository().update(userEntity);
+        var userUpdated = repository.getRepository().update(userEntity);
+        producer.sendUserUpdatedMessage(userUpdated);
+        return userUpdated;
     }
 
     private User retrieveUser(String userId) {
@@ -45,7 +45,8 @@ public class UserService {
     }
 
     public void deleteUser(String userId) {
-        var userEntity = retrieveUser(userId);
-        repository.getRepository().delete(userEntity);
+        var user = retrieveUser(userId);
+        repository.getRepository().delete(user);
+        producer.sendUserDeletedMessage(user);
     }
 }

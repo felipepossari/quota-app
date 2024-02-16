@@ -11,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 import static com.felipepossari.quota.common.event.EventType.USER_CREATED;
+import static com.felipepossari.quota.common.event.EventType.USER_DELETED;
+import static com.felipepossari.quota.common.event.EventType.USER_UPDATED;
 
 @Component
 @RequiredArgsConstructor
@@ -29,6 +31,20 @@ public class UserProducer {
         logger.info("Sending user created message. UserId: {}", user.getId());
         String data = userParser.parse(user);
         Event event = eventBuilder.buildEvent(USER_CREATED, data);
+        kafkaTemplate.send(userTopic, eventParser.parse(event));
+    }
+
+    public void sendUserUpdatedMessage(User user) {
+        logger.info("Sending user updated message. UserId: {}", user.getId());
+        String data = userParser.parse(user);
+        Event event = eventBuilder.buildEvent(USER_UPDATED, data);
+        kafkaTemplate.send(userTopic, eventParser.parse(event));
+    }
+
+    public void sendUserDeletedMessage(User user) {
+        logger.info("Sending user deleted message. UserId: {}", user.getId());
+        String data = userParser.parse(user);
+        Event event = eventBuilder.buildEvent(USER_DELETED, data);
         kafkaTemplate.send(userTopic, eventParser.parse(event));
     }
 }
