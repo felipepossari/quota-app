@@ -15,6 +15,8 @@ public class QuotaBuilder {
                 .resetTime(entity.getResetTime())
                 .rateKey(entity.getRateKey())
                 .remaining(entity.getRemaining())
+                .createdAt(entity.getCreatedAt())
+                .updatedAt(entity.getUpdatedAt())
                 .build();
     }
 
@@ -35,6 +37,8 @@ public class QuotaBuilder {
                 .resetTime(quota.getResetTime())
                 .rateKey(quota.getRateKey())
                 .remaining(quota.getRemaining())
+                .createdAt(quota.getCreatedAt())
+                .updatedAt(quota.getUpdatedAt())
                 .build();
     }
 

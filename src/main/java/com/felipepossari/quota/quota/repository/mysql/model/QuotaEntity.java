@@ -28,4 +28,8 @@ public class QuotaEntity {
     private Integer remaining;
 
     private LocalDateTime resetTime;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 }
