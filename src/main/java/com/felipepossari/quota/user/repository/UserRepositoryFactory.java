@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-import java.time.Period;
 import java.time.ZoneOffset;
 
 @Component
@@ -24,12 +23,12 @@ public class UserRepositoryFactory {
     @Qualifier("mysqlToTime")
     private final LocalTime mysqlToTime;
 
-    public UserRepository getRepository(){
+    public UserRepository getRepository() {
         LocalTime time = LocalTime.now(ZoneOffset.UTC);
 
-        if(time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)){
+        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
             return userMySqlRepository;
-        }else{
+        } else {
             return userEsRepository;
         }
     }
