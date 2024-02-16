@@ -1,6 +1,5 @@
 package com.felipepossari.quota.quota.repository;
 
-import com.felipepossari.quota.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;

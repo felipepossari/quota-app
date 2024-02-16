@@ -3,8 +3,7 @@ package com.felipepossari.quota.quota.repository.mysql;
 import com.felipepossari.quota.quota.Quota;
 import com.felipepossari.quota.quota.QuotaBuilder;
 import com.felipepossari.quota.quota.repository.QuotaRepository;
-import com.felipepossari.quota.quota.repository.elasticsearch.QuotaElasticsearchRepository;
-import lombok.RequiredArgsConstructor;
+ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
