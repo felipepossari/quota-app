@@ -14,14 +14,21 @@ public class QuotaService {
 
     private final QuotaBuilder builder;
     private final QuotaRepositoryFactory repositoryFactory;
+    private final QuotaProducer quotaProducer;
 
     public Quota retrieveQuota(String rateKey) {
         var quotaOpt = repositoryFactory.getRepository().findById(rateKey);
-        return quotaOpt.orElseGet(() -> builder.buildNewQuota(rateKey, 5));
+        if (quotaOpt.isPresent()) {
+            return quotaOpt.get();
+        }
+        Quota quota = repositoryFactory.getRepository().save(builder.buildNewQuota(rateKey, 5));
+        quotaProducer.sendQuotaCreatedMessage(quota);
+        return quota;
     }
 
     public void update(Quota quota) {
-        repositoryFactory.getRepository().save(quota);
+        var quotaUpdated = repositoryFactory.getRepository().save(quota);
+        quotaProducer.sendQuotaUpdatedMessage(quotaUpdated);
     }
 
     public Page<Quota> getUsersQuota(int page, int pageSize) {
