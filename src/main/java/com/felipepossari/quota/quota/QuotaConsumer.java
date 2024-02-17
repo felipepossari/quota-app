@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
+import static com.felipepossari.quota.quota.QuotaConstants.TOPIC_GROUP_ID;
+import static com.felipepossari.quota.quota.QuotaConstants.TOPIC_NAME;
+
 @Component
 @RequiredArgsConstructor
 @Slf4j
@@ -15,7 +18,7 @@ public class QuotaConsumer {
     private final EventParser eventParser;
     private final QuotaEventHandler quotaEventHandler;
 
-    @KafkaListener(topics = "quota", groupId = "quota")
+    @KafkaListener(topics = TOPIC_NAME, groupId = TOPIC_GROUP_ID)
     public void consumeQuotaMessage(String message) {
         try {
             Event event = eventParser.parseMessage(message);

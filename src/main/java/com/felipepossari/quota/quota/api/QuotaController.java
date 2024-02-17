@@ -11,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.felipepossari.quota.quota.QuotaConstants.API_PARAM_PAGE;
+import static com.felipepossari.quota.quota.QuotaConstants.API_PARAM_PAGE_DEFAULT_VALUE;
+import static com.felipepossari.quota.quota.QuotaConstants.API_PARAM_PAGE_SIZE;
+import static com.felipepossari.quota.quota.QuotaConstants.API_PARAM_PAGE_SIZE_DEFAULT_VALUE;
+import static com.felipepossari.quota.quota.QuotaConstants.API_V1_QUOTA_URL;
+
 @RestController
-@RequestMapping("/v1/quotas")
+@RequestMapping(API_V1_QUOTA_URL)
 @RequiredArgsConstructor
 public class QuotaController {
 
@@ -21,8 +27,8 @@ public class QuotaController {
 
     @GetMapping
     public ResponseEntity<Page<QuotaResponse>> getUsersQuota(
-            @RequestParam(value = "page", defaultValue = "0") int page,
-            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+            @RequestParam(value = API_PARAM_PAGE, defaultValue = API_PARAM_PAGE_DEFAULT_VALUE) int page,
+            @RequestParam(value = API_PARAM_PAGE_SIZE, defaultValue = API_PARAM_PAGE_SIZE_DEFAULT_VALUE) int pageSize) {
         var quotas = service.getUsersQuota(page, pageSize);
         return ResponseEntity.ok(quotas.map(builder::toResponse));
     }

@@ -17,10 +17,10 @@ public class QuotaRepositoryFactory {
     @Qualifier("QuotaEsRepository")
     private final QuotaRepository quotaEsRepository;
 
-    @Qualifier("mysqlFromTime")
+    @Qualifier("MysqlFromTime")
     private final LocalTime mysqlFromTime;
 
-    @Qualifier("mysqlToTime")
+    @Qualifier("MysqlToTime")
     private final LocalTime mysqlToTime;
 
     public QuotaRepository getRepository() {

@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class SourceTimeConfig {
 
     @Bean
-    @Qualifier("mysqlFromTime")
+    @Qualifier("MysqlFromTime")
     public LocalTime mysqlFromTime(@Value("${mysql.from-time}") String mysqlFromTime) {
         var timeSplit = mysqlFromTime.split(":");
         return LocalTime.of(Integer.parseInt(timeSplit[0]),
@@ -19,7 +19,7 @@ public class SourceTimeConfig {
     }
 
     @Bean
-    @Qualifier("mysqlToTime")
+    @Qualifier("MysqlToTime")
     public LocalTime mysqlToTime(@Value("${mysql.to-time}") String mysqlToTime) {
         var timeSplit = mysqlToTime.split(":");
         return LocalTime.of(Integer.parseInt(timeSplit[0]),
