@@ -5,6 +5,9 @@ import com.felipepossari.quota.user.UserBuilder;
 import com.felipepossari.quota.user.UserService;
 import com.felipepossari.quota.user.api.model.UserRequest;
 import com.felipepossari.quota.user.api.model.UserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +37,7 @@ public class UserController {
     private final UserService service;
     private final UserRequestValidator validator;
 
+    @Operation(summary = "Create user")
     @PostMapping
     public ResponseEntity<UserResponse> createUser(@Valid @RequestBody UserRequest body,
                                                    BindingResult bindingResult) {
@@ -43,12 +47,14 @@ public class UserController {
         return ResponseEntity.ok(builder.toUserResponse(userCreated));
     }
 
+    @Operation(summary = "Get user")
     @GetMapping(API_PATH_VARIABLE_ID)
     public ResponseEntity<UserResponse> getUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         var user = service.getUser(userId);
         return ResponseEntity.ok(builder.toUserResponse(user));
     }
 
+    @Operation(summary = "Update user")
     @PutMapping(API_PATH_VARIABLE_ID)
     public ResponseEntity<UserResponse> updateUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId,
                                                    @Valid @RequestBody UserRequest body,
@@ -59,12 +65,18 @@ public class UserController {
         return ResponseEntity.ok(builder.toUserResponse(userUpdated));
     }
 
+    @Operation(summary = "Delete user")
     @DeleteMapping(API_PATH_VARIABLE_ID)
     public ResponseEntity<Void> deleteUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         service.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Consume user quota")
+    @ApiResponses( value = {
+            @ApiResponse(responseCode = "200", description = "Quota consumed successfully"),
+            @ApiResponse(responseCode = "429", description = "Rate limit exceeded")
+    })
     @PostMapping(API_V1_USER_BY_ID_QUOTA_URL)
     public ResponseEntity<Void> consumeQuota(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         return ResponseEntity.ok().build();

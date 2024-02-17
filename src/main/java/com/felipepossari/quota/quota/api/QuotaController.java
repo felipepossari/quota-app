@@ -3,6 +3,7 @@ package com.felipepossari.quota.quota.api;
 import com.felipepossari.quota.quota.QuotaBuilder;
 import com.felipepossari.quota.quota.QuotaService;
 import com.felipepossari.quota.quota.api.model.QuotaResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class QuotaController {
     private final QuotaBuilder builder;
     private final QuotaService service;
 
+    @Operation(summary = "Get users quota statuses")
     @GetMapping
     public ResponseEntity<Page<QuotaResponse>> getUsersQuota(
             @RequestParam(value = API_PARAM_PAGE, defaultValue = API_PARAM_PAGE_DEFAULT_VALUE) int page,
