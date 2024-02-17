@@ -35,7 +35,7 @@ public class UserService {
     }
 
     public User updateUser(String userId, User user) {
-        log.info("Updating user. UserId: {}", user.getId());
+        log.info("Updating user. UserId: {}", userId);
         var userEntity = retrieveUser(userId);
         userEntity.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
         var userUpdated = repository.getRepository().update(userEntity);
@@ -76,6 +76,8 @@ public class UserService {
         if (userOpt.isPresent()) {
             if (user.getUpdatedAt().isBefore(userOpt.get().getUpdatedAt())) {
                 log.info("UpdatedAt time from registered user is after the event. Skipping sync for user updated. UserId: {}", user.getId());
+            }else{
+                repository.getIdleRepository().update(user);
             }
         } else {
             log.info("User not registered. Creating user from user updated event. UserId: {}", user.getId());
