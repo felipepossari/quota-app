@@ -2,6 +2,7 @@ package com.felipepossari.quota.unit.base;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 public class Constants {
@@ -19,4 +20,7 @@ public class Constants {
     public static final Integer QUOTA_LIMIT = 5;
     public static final Integer REMAINING_LIMIT = 5;
     public static final LocalDateTime RESET_TIME = LocalDateTime.now(ZoneOffset.UTC).plusYears(10);
+
+    public static final OffsetDateTime EVENT_TIME = OffsetDateTime.now(ZoneOffset.UTC);
+    public static final String EVENT_ID = "7971a04b-edd6-4986-8e22-0c2d9aca70f7";
 }
