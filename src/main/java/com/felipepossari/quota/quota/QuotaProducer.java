@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import static com.felipepossari.quota.common.event.EventType.QUOTA_CREATED;
 import static com.felipepossari.quota.common.event.EventType.QUOTA_UPDATED;
-import static com.felipepossari.quota.quota.QuotaConstants.TOPIC_NAME;
+import static com.felipepossari.quota.quota.QuotaConstants.QUOTA_TOPIC_NAME;
 
 @Component
 @RequiredArgsConstructor
@@ -25,12 +25,12 @@ public class QuotaProducer {
 
     public void sendQuotaCreatedMessage(Quota quota) {
         log.info("Sending quota created message. RateKey: {}", quota.getRateKey());
-        kafkaTemplate.send(TOPIC_NAME, createEvent(quota, QUOTA_CREATED));
+        kafkaTemplate.send(QUOTA_TOPIC_NAME, createEvent(quota, QUOTA_CREATED));
     }
 
     public void sendQuotaUpdatedMessage(Quota quota) {
         log.info("Sending quota updated message. RateKey: {}", quota.getRateKey());
-        kafkaTemplate.send(TOPIC_NAME, createEvent(quota, QUOTA_UPDATED));
+        kafkaTemplate.send(QUOTA_TOPIC_NAME, createEvent(quota, QUOTA_UPDATED));
     }
 
     private String createEvent(Quota quota, EventType eventType) {

@@ -15,6 +15,6 @@ public class QuotaConstants {
     public static final String API_HEADER_RATE_REMAINING = "RateLimit-Remaining";
     public static final String API_HEADER_RATE_RESET = "RateLimit-Reset";
 
-    public static final String TOPIC_NAME = "quota";
-    public static final String TOPIC_GROUP_ID = "quota";
+    public static final String QUOTA_TOPIC_NAME = "quota";
+    public static final String QUOTA_TOPIC_GROUP_ID = "quota";
 }

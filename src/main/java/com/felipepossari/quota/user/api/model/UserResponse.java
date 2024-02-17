@@ -9,6 +9,8 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static com.felipepossari.quota.user.UserConstants.API_LOCAL_DATE_TIME_FORMAT;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -18,10 +20,10 @@ public class UserResponse {
     private String id;
     private String firstName;
     private String lastName;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = API_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime lastLogin;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = API_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = API_LOCAL_DATE_TIME_FORMAT)
     private LocalDateTime updatedAt;
 }

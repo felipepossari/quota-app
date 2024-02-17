@@ -17,10 +17,10 @@ public class UserRepositoryFactory {
     @Qualifier("UserEsRepository")
     private final UserRepository userEsRepository;
 
-    @Qualifier("mysqlFromTime")
+    @Qualifier("MysqlFromTime")
     private final LocalTime mysqlFromTime;
 
-    @Qualifier("mysqlToTime")
+    @Qualifier("MysqlToTime")
     private final LocalTime mysqlToTime;
 
     public UserRepository getRepository() {
