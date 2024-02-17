@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.springframework.data.elasticsearch.core.RefreshPolicy.IMMEDIATE;
 
