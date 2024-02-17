@@ -1,5 +1,7 @@
 package com.felipepossari.quota.user.repository;
 
+import com.felipepossari.quota.common.DateTimeUtil;
+import com.felipepossari.quota.common.config.DataSourcePeriodProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -17,16 +19,13 @@ public class UserRepositoryFactory {
     @Qualifier("UserEsRepository")
     private final UserRepository userEsRepository;
 
-    @Qualifier("MysqlFromTime")
-    private final LocalTime mysqlFromTime;
-
-    @Qualifier("MysqlToTime")
-    private final LocalTime mysqlToTime;
+    private final DataSourcePeriodProperties properties;
+    private final DateTimeUtil dateTimeUtil;
 
     public UserRepository getRepository() {
-        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+        LocalTime time = dateTimeUtil.timeNowUtc();
 
-        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+        if (time.compareTo(properties.getFromTime()) >= 0 && time.compareTo(properties.getToTime()) <=0) {
             return userMySqlRepository;
         } else {
             return userEsRepository;
@@ -34,9 +33,9 @@ public class UserRepositoryFactory {
     }
 
     public UserRepository getIdleRepository() {
-        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+        LocalTime time = dateTimeUtil.timeNowUtc();
 
-        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+        if (time.compareTo(properties.getFromTime()) >= 0 && time.compareTo(properties.getToTime()) <=0) {
             return userEsRepository;
         } else {
             return userMySqlRepository;
