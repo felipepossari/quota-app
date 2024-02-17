@@ -1,11 +1,12 @@
 package com.felipepossari.quota.quota.repository;
 
+import com.felipepossari.quota.common.DateTimeUtil;
+import com.felipepossari.quota.common.config.DataSourcePeriodProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalTime;
-import java.time.ZoneOffset;
 
 @Component
 @RequiredArgsConstructor
@@ -17,16 +18,13 @@ public class QuotaRepositoryFactory {
     @Qualifier("QuotaEsRepository")
     private final QuotaRepository quotaEsRepository;
 
-    @Qualifier("MysqlFromTime")
-    private final LocalTime mysqlFromTime;
-
-    @Qualifier("MysqlToTime")
-    private final LocalTime mysqlToTime;
+    private final DataSourcePeriodProperties properties;
+    private final DateTimeUtil dateTimeUtil;
 
     public QuotaRepository getRepository() {
-        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+        LocalTime time = dateTimeUtil.timeNowUtc();
 
-        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+        if (time.compareTo(properties.getFromTime()) >= 0 && time.compareTo(properties.getToTime()) <=0) {
             return quotaMySqlRepository;
         } else {
             return quotaEsRepository;
@@ -34,9 +32,9 @@ public class QuotaRepositoryFactory {
     }
 
     public QuotaRepository getIdleRepository() {
-        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+        LocalTime time = dateTimeUtil.timeNowUtc();
 
-        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+        if (time.compareTo(properties.getFromTime()) >= 0 && time.compareTo(properties.getToTime()) <=0) {
             return quotaEsRepository;
         } else {
             return quotaMySqlRepository;
