@@ -1,6 +1,6 @@
 package com.felipepossari.quota.user;
 
-import com.felipepossari.quota.DateTimeUtil;
+import com.felipepossari.quota.common.DateTimeUtil;
 import com.felipepossari.quota.common.exception.ResourceNotFoundException;
 import com.felipepossari.quota.user.repository.UserRepositoryFactory;
 import lombok.RequiredArgsConstructor;
@@ -75,8 +75,9 @@ public class UserService {
         var userOpt = repository.getIdleRepository().findById(user.getId());
         if (userOpt.isPresent()) {
             if (user.getUpdatedAt().isBefore(userOpt.get().getUpdatedAt())) {
-                log.info("UpdatedAt time from registered user is after the event. Skipping sync for user updated. UserId: {}", user.getId());
-            }else{
+                log.info("UpdatedAt time from registered user is after the event. " +
+                        "Skipping sync for user updated. UserId: {}", user.getId());
+            } else {
                 repository.getIdleRepository().update(user);
             }
         } else {

@@ -20,8 +20,8 @@ public class QuotaEsRepository implements QuotaRepository {
     private final QuotaBuilder builder;
 
     @Override
-    public Optional<Quota> findById(String userId) {
-        var indexOpt = repository.findById(userId);
+    public Optional<Quota> findById(String rateKey) {
+        var indexOpt = repository.findById(rateKey);
         return indexOpt.map(builder::toQuota);
     }
 

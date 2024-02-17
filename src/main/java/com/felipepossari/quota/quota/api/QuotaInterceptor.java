@@ -1,6 +1,6 @@
 package com.felipepossari.quota.quota.api;
 
-import com.felipepossari.quota.DateTimeUtil;
+import com.felipepossari.quota.common.DateTimeUtil;
 import com.felipepossari.quota.quota.Quota;
 import com.felipepossari.quota.quota.QuotaService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,7 +45,7 @@ public class QuotaInterceptor implements HandlerInterceptor {
             response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(), TOO_MANY_REQUESTS.getMessage());
             return false;
         }else{
-            service.save(quota);
+            service.update(quota);
         }
 
         return true;

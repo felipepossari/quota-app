@@ -32,4 +32,14 @@ public class QuotaRepositoryFactory {
             return quotaEsRepository;
         }
     }
+
+    public QuotaRepository getIdleRepository() {
+        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+
+        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+            return quotaEsRepository;
+        } else {
+            return quotaMySqlRepository;
+        }
+    }
 }

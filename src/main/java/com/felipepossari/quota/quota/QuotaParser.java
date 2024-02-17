@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import static com.felipepossari.quota.common.exception.ErrorReason.USER_PARSE_FAIL;
+import static com.felipepossari.quota.common.exception.ErrorReason.QUOTA_DATA_PARSE_FAIL;
+import static com.felipepossari.quota.common.exception.ErrorReason.QUOTA_PARSE_FAIL;
 
 @Component
 @RequiredArgsConstructor
@@ -20,8 +21,17 @@ public class QuotaParser {
         try {
             return objectMapper.writeValueAsString(quota);
         } catch (JsonProcessingException e) {
-            log.error(USER_PARSE_FAIL.getMessage(), e);
-            throw new ParserErrorException(USER_PARSE_FAIL);
+            log.error(QUOTA_PARSE_FAIL.getMessage(), e);
+            throw new ParserErrorException(QUOTA_PARSE_FAIL);
+        }
+    }
+
+    public Quota parse(String data) {
+        try {
+            return objectMapper.readValue(data, Quota.class);
+        } catch (JsonProcessingException e) {
+            log.error(QUOTA_DATA_PARSE_FAIL.getMessage(), e);
+            throw new ParserErrorException(QUOTA_DATA_PARSE_FAIL);
         }
     }
 }

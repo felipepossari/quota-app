@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface QuotaRepository {
 
-    Optional<Quota> findById(String userId);
+    Optional<Quota> findById(String rateKey);
 
     Quota save(Quota quota);
 
