@@ -19,17 +19,14 @@ import org.springframework.kafka.core.ProducerFactory;
 
 import java.util.Map;
 
+import static com.felipepossari.quota.quota.QuotaConstants.QUOTA_TOPIC_NAME;
+import static com.felipepossari.quota.user.UserConstants.USER_TOPIC_NAME;
+
 @Configuration
 public class KafkaConfig {
 
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
-
-    @Value("${kafka.user.topic}")
-    private String userTopic;
-
-    @Value("${kafka.quota.topic}")
-    private String quotaTopic;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -38,12 +35,12 @@ public class KafkaConfig {
 
     @Bean
     public NewTopic userTopic() {
-        return new NewTopic(userTopic, 1, (short) 1);
+        return new NewTopic(USER_TOPIC_NAME, 1, (short) 1);
     }
 
     @Bean
     public NewTopic quotaTopic() {
-        return new NewTopic(quotaTopic, 1, (short) 1);
+        return new NewTopic(QUOTA_TOPIC_NAME, 1, (short) 1);
     }
 
     @Bean
