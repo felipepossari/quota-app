@@ -26,7 +26,14 @@ public class QuotaEsRepository implements QuotaRepository {
     }
 
     @Override
-    public Quota save(Quota quota) {
+    public Quota create(Quota quota) {
+        var index = builder.toIndex(quota);
+        var quotaCreated = repository.save(index, IMMEDIATE);
+        return builder.toQuota(quotaCreated);
+    }
+
+    @Override
+    public Quota update(Quota quota) {
         var index = builder.toIndex(quota);
         var quotaUpdated = repository.save(index, IMMEDIATE);
         return builder.toQuota(quotaUpdated);

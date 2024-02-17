@@ -14,13 +14,12 @@ public class UserEventHandler {
     private final UserService service;
 
     public void handleEvent(Event event) {
-        User user = userParser.parse(event.getData());
-        log.info("Handling user message. EventType: {} UserId: {}", event.getEventType(), user.getId());
+        log.info("Handling user event. EventType: {}", event.getEventType());
 
         switch (event.getEventType()) {
-            case USER_CREATED -> service.syncUserCreated(user);
-            case USER_UPDATED -> service.syncUserUpdated(user);
-            case USER_DELETED -> service.syncUserDeleted(user);
+            case USER_CREATED -> service.syncUserCreated(userParser.parse(event.getData()));
+            case USER_UPDATED -> service.syncUserUpdated(userParser.parse(event.getData()));
+            case USER_DELETED -> service.syncUserDeleted(userParser.parse(event.getData()));
             default ->
                     log.info("Discarding event. Event type not ready to be handled. EventType: {}", event.getEventType());
         }

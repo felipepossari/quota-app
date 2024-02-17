@@ -36,9 +36,9 @@ public class UserService {
 
     public User updateUser(String userId, User user) {
         log.info("Updating user. UserId: {}", userId);
-        var userEntity = retrieveUser(userId);
-        userEntity.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
-        var userUpdated = repository.getRepository().update(userEntity);
+        var userRegistered = retrieveUser(userId);
+        userRegistered.updateName(user.getFirstName(), user.getLastName(), dateTimeUtil.nowUtc());
+        var userUpdated = repository.getRepository().update(userRegistered);
         producer.sendUserUpdatedMessage(userUpdated);
         return userUpdated;
     }
