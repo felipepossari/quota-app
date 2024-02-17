@@ -1,4 +1,4 @@
-package com.felipepossari.quota;
+package com.felipepossari.quota.common;
 
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,7 @@
-package com.felipepossari.quota.quota;
+package com.felipepossari.quota.quota.api;
 
+import com.felipepossari.quota.quota.QuotaBuilder;
+import com.felipepossari.quota.quota.QuotaService;
 import com.felipepossari.quota.quota.api.model.QuotaResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
