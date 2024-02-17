@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 
 import static com.felipepossari.quota.unit.base.Constants.CREATED_AT;
 import static com.felipepossari.quota.unit.base.Constants.FIRST_NAME;
+import static com.felipepossari.quota.unit.base.Constants.FIRST_NAME_UPDATED;
 import static com.felipepossari.quota.unit.base.Constants.LAST_NAME;
+import static com.felipepossari.quota.unit.base.Constants.LAST_NAME_UPDATED;
 import static com.felipepossari.quota.unit.base.Constants.UPDATED_AT;
 import static com.felipepossari.quota.unit.base.Constants.USER_ID;
 
@@ -24,6 +26,14 @@ public class UserTestBuilder {
 
     public static UserTestBuilder anUser() {
         return new UserTestBuilder();
+    }
+
+    public static UserTestBuilder anUserUpdated() {
+        var userTestBuilder = new UserTestBuilder();
+        userTestBuilder.firstName(FIRST_NAME_UPDATED);
+        userTestBuilder.lastName(LAST_NAME_UPDATED);
+        userTestBuilder.updatedAt(userTestBuilder.updatedAt.plusSeconds(30));
+        return userTestBuilder;
     }
 
     public UserTestBuilder id(String id) {
