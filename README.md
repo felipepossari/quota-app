@@ -30,4 +30,4 @@ gradle :bootRun
 
 You can see the api docs accessing the http://localhost:8080/swagger-ui/index.html.
 
-In order to help the tests there are also the Postman collection with the API calls. The Postman files are located into folder `postman`.
+In order to help the tests there is also the Postman collection into folder `postman`.
