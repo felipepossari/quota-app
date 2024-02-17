@@ -10,7 +10,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.time.LocalDateTime;
 
-@Document(indexName = "user")
+import static com.felipepossari.quota.user.UserConstants.USER_INDEX_NAME;
+
+@Document(indexName = USER_INDEX_NAME)
 @Data
 @Builder
 public class UserIndex {
@@ -18,18 +20,18 @@ public class UserIndex {
     @Id
     private String id;
 
-    @Field(type = FieldType.Text, name = "firstName")
+    @Field(type = FieldType.Text)
     private String firstName;
 
-    @Field(type = FieldType.Text, name = "lastName")
+    @Field(type = FieldType.Text)
     private String lastName;
 
-    @Field(type = FieldType.Date, name = "lastLoginTimeUtc", format = DateFormat.date_hour_minute_second_millis)
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime lastLoginTimeUtc;
 
-    @Field(type = FieldType.Date, name = "createdAt", format = DateFormat.date_hour_minute_second_millis)
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime createdAt;
 
-    @Field(type = FieldType.Date, name = "updatedAt", format = DateFormat.date_hour_minute_second_millis)
+    @Field(type = FieldType.Date, format = DateFormat.date_hour_minute_second_millis)
     private LocalDateTime updatedAt;
 }

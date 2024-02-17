@@ -12,13 +12,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static com.felipepossari.quota.user.UserConstants.USER_TABLE_NAME;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-@Table(name = "user")
+@Table(name = USER_TABLE_NAME)
 public class UserEntity {
 
     @Id

@@ -17,10 +17,10 @@ public class QuotaRepositoryFactory {
     @Qualifier("QuotaEsRepository")
     private final QuotaRepository quotaEsRepository;
 
-    @Qualifier("mysqlFromTime")
+    @Qualifier("MysqlFromTime")
     private final LocalTime mysqlFromTime;
 
-    @Qualifier("mysqlToTime")
+    @Qualifier("MysqlToTime")
     private final LocalTime mysqlToTime;
 
     public QuotaRepository getRepository() {
@@ -30,6 +30,16 @@ public class QuotaRepositoryFactory {
             return quotaMySqlRepository;
         } else {
             return quotaEsRepository;
+        }
+    }
+
+    public QuotaRepository getIdleRepository() {
+        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+
+        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+            return quotaEsRepository;
+        } else {
+            return quotaMySqlRepository;
         }
     }
 }

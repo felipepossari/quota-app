@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Component("UserMySqlRepository")
 @RequiredArgsConstructor
@@ -18,7 +17,6 @@ public class UserMySqlRepository implements UserRepository {
 
     @Override
     public User create(User user) {
-        user.setId(UUID.randomUUID().toString());
         var userCreated = repository.save(builder.toEntity(user));
         return builder.toUser(userCreated);
     }

@@ -1,7 +1,6 @@
 package com.felipepossari.quota.common.exception;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,9 +11,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.List;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<List<ErrorResponse>> handleResourceNotFoundException(ResourceNotFoundException exception,
@@ -46,7 +44,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({Exception.class, RuntimeException.class})
     public ResponseEntity<List<ErrorResponse>> handleUnknownError(Exception exception, WebRequest request) {
-        logger.error("Unknown error happened. Ex:", exception);
+        log.error("Unknown error happened. Ex:", exception);
         var error = List.of(ErrorResponse.builder()
                 .code(ErrorReason.INTERNAL_ERROR.getCode())
                 .message(ErrorReason.INTERNAL_ERROR.getMessage())

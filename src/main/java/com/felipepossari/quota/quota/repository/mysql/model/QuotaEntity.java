@@ -11,13 +11,15 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+import static com.felipepossari.quota.quota.QuotaConstants.QUOTA_TABLE_NAME;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-@Table(name = "quota")
+@Table(name = QUOTA_TABLE_NAME)
 public class QuotaEntity {
 
     @Id

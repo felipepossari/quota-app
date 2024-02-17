@@ -1,6 +1,6 @@
 package com.felipepossari.quota.quota;
 
-import com.felipepossari.quota.DateTimeUtil;
+import com.felipepossari.quota.common.DateTimeUtil;
 import com.felipepossari.quota.quota.api.model.QuotaResponse;
 import com.felipepossari.quota.quota.repository.elasticsearch.model.QuotaIndex;
 import com.felipepossari.quota.quota.repository.mysql.model.QuotaEntity;

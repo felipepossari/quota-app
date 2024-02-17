@@ -17,10 +17,10 @@ public class UserRepositoryFactory {
     @Qualifier("UserEsRepository")
     private final UserRepository userEsRepository;
 
-    @Qualifier("mysqlFromTime")
+    @Qualifier("MysqlFromTime")
     private final LocalTime mysqlFromTime;
 
-    @Qualifier("mysqlToTime")
+    @Qualifier("MysqlToTime")
     private final LocalTime mysqlToTime;
 
     public UserRepository getRepository() {
@@ -30,6 +30,16 @@ public class UserRepositoryFactory {
             return userMySqlRepository;
         } else {
             return userEsRepository;
+        }
+    }
+
+    public UserRepository getIdleRepository() {
+        LocalTime time = LocalTime.now(ZoneOffset.UTC);
+
+        if (time.isAfter(mysqlFromTime) && time.isBefore(mysqlToTime)) {
+            return userEsRepository;
+        } else {
+            return userMySqlRepository;
         }
     }
 }

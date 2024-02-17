@@ -20,8 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.felipepossari.quota.user.UserConstants.API_PATH_VARIABLE_ID;
+import static com.felipepossari.quota.user.UserConstants.API_PATH_VARIABLE_ID_VALUE;
+import static com.felipepossari.quota.user.UserConstants.API_V1_USER_BY_ID_QUOTA_URL;
+import static com.felipepossari.quota.user.UserConstants.API_V1_USER_URL;
+
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping(API_V1_USER_URL)
 @RequiredArgsConstructor
 public class UserController {
 
@@ -38,14 +43,14 @@ public class UserController {
         return ResponseEntity.ok(builder.toUserResponse(userCreated));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> getUser(@PathVariable("id") String userId) {
+    @GetMapping(API_PATH_VARIABLE_ID)
+    public ResponseEntity<UserResponse> getUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         var user = service.getUser(userId);
         return ResponseEntity.ok(builder.toUserResponse(user));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String userId,
+    @PutMapping(API_PATH_VARIABLE_ID)
+    public ResponseEntity<UserResponse> updateUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId,
                                                    @Valid @RequestBody UserRequest body,
                                                    BindingResult bindingResult) {
         checkRequest(bindingResult);
@@ -54,24 +59,24 @@ public class UserController {
         return ResponseEntity.ok(builder.toUserResponse(userUpdated));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable("id") String userId){
+    @DeleteMapping(API_PATH_VARIABLE_ID)
+    public ResponseEntity<Void> deleteUser(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         service.deleteUser(userId);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{id}/quota")
-    public ResponseEntity<Void> consumeQuota(@PathVariable("id") String userId){
+    @PostMapping(API_V1_USER_BY_ID_QUOTA_URL)
+    public ResponseEntity<Void> consumeQuota(@PathVariable(API_PATH_VARIABLE_ID_VALUE) String userId) {
         return ResponseEntity.ok().build();
     }
 
     @InitBinder
-    private void initBinder(WebDataBinder binder){
+    private void initBinder(WebDataBinder binder) {
         binder.setValidator(validator);
     }
 
-    private void checkRequest(BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
+    private void checkRequest(BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             throw new InvalidRequestException(bindingResult);
         }
     }
