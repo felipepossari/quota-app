@@ -3,6 +3,7 @@ package com.felipepossari.quota.quota;
 import com.felipepossari.quota.quota.repository.QuotaRepositoryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,13 +16,15 @@ public class QuotaService {
     private final QuotaBuilder builder;
     private final QuotaRepositoryFactory repositoryFactory;
     private final QuotaProducer quotaProducer;
+    @Value("${quota.limit}")
+    private final Integer quotaLimit;
 
     public Quota retrieveQuota(String rateKey) {
         var quotaOpt = repositoryFactory.getRepository().findById(rateKey);
         if (quotaOpt.isPresent()) {
             return quotaOpt.get();
         }
-        Quota quota = repositoryFactory.getRepository().save(builder.buildNewQuota(rateKey, 5));
+        Quota quota = repositoryFactory.getRepository().save(builder.buildNewQuota(rateKey, quotaLimit));
         quotaProducer.sendQuotaCreatedMessage(quota);
         return quota;
     }
