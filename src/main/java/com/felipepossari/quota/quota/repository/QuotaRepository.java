@@ -10,7 +10,9 @@ public interface QuotaRepository {
 
     Optional<Quota> findById(String rateKey);
 
-    Quota save(Quota quota);
+    Quota create(Quota quota);
+
+    Quota update(Quota quota);
 
     Page<Quota> getAll(Pageable pageable);
 }

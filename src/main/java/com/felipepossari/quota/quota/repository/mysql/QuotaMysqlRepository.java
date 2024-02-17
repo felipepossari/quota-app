@@ -24,7 +24,14 @@ public class QuotaMysqlRepository implements QuotaRepository {
     }
 
     @Override
-    public Quota save(Quota quota) {
+    public Quota create(Quota quota) {
+        var entity = builder.toEntity(quota);
+        var quotaCreated = repository.save(entity);
+        return builder.toQuota(quotaCreated);
+    }
+
+    @Override
+    public Quota update(Quota quota) {
         var entity = builder.toEntity(quota);
         var quotaUpdated = repository.save(entity);
         return builder.toQuota(quotaUpdated);

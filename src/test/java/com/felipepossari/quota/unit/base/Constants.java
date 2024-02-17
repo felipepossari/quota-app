@@ -14,4 +14,9 @@ public class Constants {
     public static final LocalDateTime CREATED_AT = LocalDateTime.now(ZoneOffset.UTC);
     public static final LocalDateTime UPDATED_AT = LocalDateTime.now(ZoneOffset.UTC);
 
+
+    public static final String RATE_KEY = "9b0dc467-f3b2-4cf9-9b90-f19d4ae74200";
+    public static final Integer QUOTA_LIMIT = 5;
+    public static final Integer REMAINING_LIMIT = 5;
+    public static final LocalDateTime RESET_TIME = LocalDateTime.now(ZoneOffset.UTC).plusYears(10);
 }

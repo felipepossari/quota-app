@@ -1,9 +1,9 @@
 package com.felipepossari.quota.quota;
 
+import com.felipepossari.quota.common.config.QuotaProperties;
 import com.felipepossari.quota.quota.repository.QuotaRepositoryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,21 +16,20 @@ public class QuotaService {
     private final QuotaBuilder builder;
     private final QuotaRepositoryFactory repositoryFactory;
     private final QuotaProducer quotaProducer;
-    @Value("${quota.limit}")
-    private final Integer quotaLimit;
+    private final QuotaProperties quotaProperties;
 
     public Quota retrieveQuota(String rateKey) {
         var quotaOpt = repositoryFactory.getRepository().findById(rateKey);
         if (quotaOpt.isPresent()) {
             return quotaOpt.get();
         }
-        Quota quota = repositoryFactory.getRepository().save(builder.buildNewQuota(rateKey, quotaLimit));
+        Quota quota = repositoryFactory.getRepository().create(builder.buildNewQuota(rateKey, quotaProperties.getLimit()));
         quotaProducer.sendQuotaCreatedMessage(quota);
         return quota;
     }
 
     public void update(Quota quota) {
-        var quotaUpdated = repositoryFactory.getRepository().save(quota);
+        var quotaUpdated = repositoryFactory.getRepository().update(quota);
         quotaProducer.sendQuotaUpdatedMessage(quotaUpdated);
     }
 
@@ -43,7 +42,7 @@ public class QuotaService {
         if (quotaOpt.isPresent()) {
             log.info("Quota already registered. Skipping sync for quota created. RateKey: {}", quota.getRateKey());
         } else {
-            repositoryFactory.getIdleRepository().save(quota);
+            repositoryFactory.getIdleRepository().create(quota);
         }
     }
 
@@ -54,11 +53,11 @@ public class QuotaService {
                 log.info("UpdatedAt time from registered quota is after the event. " +
                         "Skipping sync for quota updated. RateKey: {}", quota.getRateKey());
             } else {
-                repositoryFactory.getIdleRepository().save(quota);
+                repositoryFactory.getIdleRepository().update(quota);
             }
         } else {
             log.info("Quota not registered. Creating quota from quota updated event. RateKey: {}", quota.getRateKey());
-            repositoryFactory.getIdleRepository().save(quota);
+            repositoryFactory.getIdleRepository().create(quota);
         }
     }
 }
