@@ -9,6 +9,7 @@
 - Flyway;
 - MySql;
 - Elasticsearch;
+- Kafka;
 
 ## Requirements
 
